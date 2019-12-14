@@ -1,39 +1,53 @@
 import React from "react";
 import "./forecast-table.css";
 
-const ForecastTable = () => {
+const ForecastTable = ({
+  cityName,
+  temperature,
+  pressure,
+  minTemp,
+  maxTemp,
+  humidity,
+  feelsLike
+}) => {
   return (
-    <table className="forecast-table table table-hover">
-      <thea>City Name</thea>
-      <tr className="table-light">
-        <td>temperature</td>
-        <td>value</td>
-      </tr>
-      <tr className="table-light">
-        <td>Feels like</td>
-        <td>value</td>
-      </tr>
-      <tr className="table-light">
-        <td>Min temp</td>
-        <td>value</td>
-      </tr>
-      <tr className="table-light">
-        <td>Max temp</td>
-        <td>value</td>
-      </tr>
-      <tr className="table-light">
-        <td>Pressure</td>
-        <td>value</td>
-      </tr>
-      <tr className="table-light">
-        <td>Humidity</td>
-        <td>value</td>
-      </tr>
-      <tr className="table-light">
-        <td>Wind</td>
-        <td>value</td>
-      </tr>
-    </table>
+    <div className="forecast-table">
+      <h5>{cityName}</h5>
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <td>Погода</td>
+            <td>Значение</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="table-light">
+            <td>Температура:</td>
+            <td>{temperature}</td>
+          </tr>
+          <tr className="table-light">
+            <td>Ощущается как:</td>
+            <td>{feelsLike}</td>
+          </tr>
+          <tr className="table-light">
+            <td>Минимальная температура:</td>
+            <td>{minTemp}</td>
+          </tr>
+          <tr className="table-light">
+            <td>Максимальная температура:</td>
+            <td>{maxTemp}</td>
+          </tr>
+          <tr className="table-light">
+            <td>Давление:</td>
+            <td>{pressure}</td>
+          </tr>
+          <tr className="table-light">
+            <td>Влажность:</td>
+            <td>{humidity}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 };
 
