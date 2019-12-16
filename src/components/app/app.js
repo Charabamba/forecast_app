@@ -9,7 +9,7 @@ export default class App extends Component {
   forecastService = new ForecastService();
 
   state = {
-    searchCity: "",
+    searchCity: "Chelyabinsk",
     temperature: null,
     feelsLike: null,
     minTemp: null,
@@ -18,37 +18,44 @@ export default class App extends Component {
     humidity: null
   };
 
-  constructor() {
-    super();
+  componentDidMount() {
     this.getForecast();
   }
 
-  getForecast() {
+  getForecast = () => {
     this.forecastService
       .getResource(
-        "http://api.openweathermap.org/data/2.5/weather?q=Chelyabinsk,ru&appid=de94674d08936b9e16c744ccc510c21f"
+        `http://api.openweathermap.org/data/2.5/weather?q=${this.state.searchCity},ru&appid=de94674d08936b9e16c744ccc510c21f`
       )
       .then(forecast => {
         this.setState({
-          temperature: forecast.temp - 273.15,
-          feelsLike: forecast.feels_like - 273.15,
-          minTemp: forecast.temp_min - 273.15,
-          maxTemp: forecast.temp_max - 273.15,
-          pressure: 0.75 * forecast.pressure,
+          temperature: Math.floor(forecast.temp - 273.15),
+          feelsLike: Math.floor(forecast.feels_like - 273.15),
+          minTemp: Math.floor(forecast.temp_min - 273.15),
+          maxTemp: Math.floor(forecast.temp_max - 273.15),
+          pressure: Math.floor(0.75 * forecast.pressure),
           humidity: forecast.humidity
         });
       });
-  }
+  };
+
+  onInputChange = e => {
+    const city = e.target.value;
+    this.setState({ searchCity: city });
+  };
 
   render() {
     return (
       <div className="app">
         <Header title="Forecast App" />
-        <SearchPanel />
+        <SearchPanel
+          searchCity={this.state.searchCity}
+          onInputChange={this.onInputChange}
+          getForecast={this.getForecast}
+        />
         <ForecastTable
-          cityName={this.state.searchCity}
           temperature={this.state.temperature}
-          feelsLike={Math.floor(this.state.feelsLike)}
+          feelsLike={this.state.feelsLike}
           minTemp={this.state.minTemp}
           maxTemp={this.state.maxTemp}
           pressure={this.state.pressure}
