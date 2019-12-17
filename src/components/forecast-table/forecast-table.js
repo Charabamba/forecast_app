@@ -8,11 +8,14 @@ const ForecastTable = ({
   minTemp,
   maxTemp,
   humidity,
-  feelsLike
+  feelsLike,
+  date
 }) => {
   return (
     <div className="forecast-table">
-      <h5>{cityName}</h5>
+      <h5>
+        {cityName}: {date}
+      </h5>
       <table className="table table-hover">
         <thead>
           <tr>

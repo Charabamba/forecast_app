@@ -9,13 +9,14 @@ export default class App extends Component {
   forecastService = new ForecastService();
 
   state = {
-    searchCity: "Chelyabinsk",
+    searchCity: "Челябинск",
     temperature: null,
     feelsLike: null,
     minTemp: null,
     maxTemp: null,
     pressure: null,
-    humidity: null
+    humidity: null,
+    cityName: null
   };
 
   componentDidMount() {
@@ -23,9 +24,10 @@ export default class App extends Component {
   }
 
   getForecast = () => {
+    const apiKey = "ru&appid=de94674d08936b9e16c744ccc510c21f";
     this.forecastService
       .getResource(
-        `http://api.openweathermap.org/data/2.5/weather?q=${this.state.searchCity},ru&appid=de94674d08936b9e16c744ccc510c21f`
+        `http://api.openweathermap.org/data/2.5/weather?q=${this.state.searchCity},${apiKey}`
       )
       .then(forecast => {
         this.setState({
@@ -34,7 +36,8 @@ export default class App extends Component {
           minTemp: Math.floor(forecast.temp_min - 273.15),
           maxTemp: Math.floor(forecast.temp_max - 273.15),
           pressure: Math.floor(0.75 * forecast.pressure),
-          humidity: forecast.humidity
+          humidity: forecast.humidity,
+          cityName: this.state.searchCity
         });
       });
   };
@@ -54,6 +57,7 @@ export default class App extends Component {
           getForecast={this.getForecast}
         />
         <ForecastTable
+          cityName={this.state.cityName}
           temperature={this.state.temperature}
           feelsLike={this.state.feelsLike}
           minTemp={this.state.minTemp}
